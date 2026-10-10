@@ -1,0 +1,22 @@
+build/
+*.vcd
+*.fst
+# Vivado
+*.cache/
+*.hw/
+*.runs/
+*.sim/
+*.ip_user_files/
+*.gen/
+*.jou
+*.log
+*.str
+.Xil/
+# Python
+__pycache__/
+*.pyc
+.venv/
+# MNIST raw downloads (large)
+python/mnist_raw/
+# Starter archive
+*.zip
