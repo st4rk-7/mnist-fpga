@@ -18,5 +18,7 @@ __pycache__/
 .venv/
 # MNIST raw downloads (large)
 python/mnist_raw/
+data/*.npz
+data/mnist.npz
 # Starter archive
 *.zip
