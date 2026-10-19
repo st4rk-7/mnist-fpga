@@ -1,9 +1,9 @@
 # Control and memories: design proposal
 
-Status: **PROPOSAL - NOT FROZEN**
+Status: **APPROVED BY THE TEAM - FROZEN**
 
-The team must approve the ports and file formats below. After approval, copy the
-final decisions into `docs/PROJECT_CONTEXT.md` section 9.
+The team approved these controller ports and file formats. The frozen decisions
+are also recorded in `docs/PROJECT_CONTEXT.md` section 9.
 
 ## 1. Controller job
 
@@ -42,7 +42,7 @@ module controller (
 );
 ```
 
-This is an interface proposal, not completed RTL.
+This is the frozen controller interface, not completed RTL.
 
 ### Port meanings
 
@@ -113,9 +113,8 @@ The two loops are:
 | `m` | 0 to 9 | 4 bits | Output neuron/digit number |
 | `w_addr` | 0 to 25,407 | 15 bits | Address of every network weight |
 
-The controller may share `i` and `j` as one 10-bit input counter because only one
-layer runs at a time. The team should choose between separate counters and one shared
-counter before RTL is written.
+The controller uses one shared 10-bit input counter for `i` and `j` because only one
+layer runs at a time. It counts 0 to 783 in layer 1 and 0 to 31 in layer 2.
 
 ## 6. BRAM timing
 
@@ -160,7 +159,7 @@ Because the weights are stored in the exact processing order, `w_addr` can count
 
 The controller testbench must count these events and print `PASS` or `FAIL`.
 
-## 9. Memory-file proposal
+## 9. Frozen memory-file formats
 
 | File | Lines | Bits per line | Example |
 |---|---:|---:|---|
@@ -172,15 +171,15 @@ The controller testbench must count these events and print `PASS` or `FAIL`.
 Use one hexadecimal value per line. Negative values use two's complement. Python and
 Control must agree on this format before creating the ROM modules.
 
-## 10. Decisions the team must approve
+## 10. Approved team decisions
 
-- [ ] Approve or change the proposed controller ports.
-- [ ] Decide whether the controller uses one shared input counter or separate `i` and `j` counters.
-- [ ] Approve the four `.hex` filenames and formats.
-- [ ] Confirm argmax ties keep the lower index by using `>` rather than `>=`.
-- [ ] Confirm all ROM reads have one-clock synchronous latency.
-- [ ] Confirm `done` is a one-clock pulse.
-- [ ] Record the final decisions in `docs/PROJECT_CONTEXT.md` section 9.
+- [x] The proposed controller ports are approved.
+- [x] The controller uses one shared 10-bit input counter for `i` and `j`.
+- [x] The four `.hex` filenames and formats are approved.
+- [x] Argmax ties keep the lower index by using `>` rather than `>=`.
+- [x] All ROM reads have one-clock synchronous latency.
+- [x] `done` is a one-clock pulse.
+- [x] The final decisions are recorded in `docs/PROJECT_CONTEXT.md` section 9.
 
 ## 11. Hardware summary
 

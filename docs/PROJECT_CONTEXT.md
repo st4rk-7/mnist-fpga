@@ -83,7 +83,57 @@ Everyone must be able to explain the whole design (individual viva). 15-minute w
 6. Add every `.hex` file to the Vivado project, or the memory is silently empty.
 7. `CPU_RESETN` is active-low.
 
-## 9. Things still to decide (ask the team)
-- Exact `.hex` file names and line formats (agree in phase 2, then write them here).
-- Port list of every module (freeze in phase 2, then write them here).
-- Argmax tie rule (must match Python).
+## 9. Frozen phase-2 interface decisions
+
+The team approved these decisions before RTL implementation. Do not change them
+without agreement from all four roles.
+
+### Controller port list
+
+```verilog
+module controller (
+    input  wire        clk,
+    input  wire        rst_n,
+    input  wire        start,
+    input  wire [3:0]  img_sel,
+    output reg         layer,
+    output reg  [14:0] w_addr,
+    output reg  [5:0]  b_addr,
+    output reg  [13:0] px_addr,
+    output reg  [4:0]  h_addr,
+    output reg         h_we,
+    output reg         load_bias,
+    output reg         acc_en,
+    output reg         score_valid,
+    output reg  [3:0]  out_idx,
+    output reg         busy,
+    output reg         done
+);
+```
+
+The controller uses one shared 10-bit input counter. It counts 0 to 783 in
+layer 1 and 0 to 31 in layer 2. `done` is a one-clock pulse.
+
+### Memory files
+
+Each file contains one hexadecimal value per line, in address order. Negative
+weights and biases use two's complement.
+
+| File | Lines | Width | Address order |
+|---|---:|---:|---|
+| `data/weights.hex` | 25,408 | 8 bits | Layer 1, then layer 2, as defined in section 3 |
+| `data/biases.hex` | 42 | 16 bits | Layer 1 biases, then layer 2 biases |
+| `data/images.hex` | 12,544 | 8 bits | Image 0 to 15, each image row by row |
+| `data/labels.hex` | 16 | 4 bits | One true digit for each image |
+
+All ROM reads have one-clock synchronous latency.
+
+### Argmax tie rule
+
+On equal scores, keep the lower output index. The comparison therefore updates
+the best result only when the new score is strictly greater (`>`), not greater
+than or equal (`>=`). Python and Verilog must use this same rule.
+
+### Still to freeze
+
+- Port lists for the Compute, memory, and Board modules.
