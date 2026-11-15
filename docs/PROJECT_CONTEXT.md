@@ -128,6 +128,49 @@ weights and biases use two's complement.
 
 All ROM reads have one-clock synchronous latency.
 
+### Memory module port lists
+
+```verilog
+module rom_weights (
+    input  wire               clk,
+    input  wire [14:0]        addr,
+    output reg  signed [7:0]  data
+);
+
+module rom_bias (
+    input  wire                clk,
+    input  wire [5:0]          addr,
+    output reg  signed [15:0]  data
+);
+
+module rom_image (
+    input  wire         clk,
+    input  wire [13:0]  addr_a,
+    output reg  [7:0]   data_a,
+    input  wire [13:0]  addr_b,
+    output reg  [7:0]   data_b
+);
+
+module rom_label (
+    input  wire        clk,
+    input  wire [3:0]  addr,
+    output reg  [3:0]  data
+);
+
+module hidden_buf (
+    input  wire        clk,
+    input  wire        we,
+    input  wire [4:0]  addr,
+    input  wire [7:0]  write_data,
+    output reg  [7:0]  read_data
+);
+```
+
+The image ROM is dual-port. Port A belongs to the inference controller and port B
+belongs to VGA. The hidden buffer uses one shared read/write address because layer 1
+writes and layer 2 reads at different times. Weight and bias outputs are signed;
+pixel, label, and hidden values are unsigned.
+
 ### Argmax tie rule
 
 On equal scores, keep the lower output index. The comparison therefore updates
@@ -136,4 +179,4 @@ than or equal (`>=`). Python and Verilog must use this same rule.
 
 ### Still to freeze
 
-- Port lists for the Compute, memory, and Board modules.
+- Port lists for the Compute and Board modules.

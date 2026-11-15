@@ -1,6 +1,6 @@
 # Memory interfaces: team approval proposal
 
-Status: **PROPOSAL - NOT FROZEN**
+Status: **APPROVED BY THE TEAM - FROZEN**
 
 These interfaces follow the frozen memory map in `docs/PROJECT_CONTEXT.md`.
 Python's current files have the correct line counts and widths.
@@ -132,13 +132,13 @@ Each testbench will check:
 Vivado decides the exact implementation. The synchronous read style is important
 for block-RAM inference.
 
-## 9. Approval checklist
+## 9. Approved decisions
 
-- [ ] Python approves filenames, widths, and address order.
-- [ ] Compute approves signed weight and bias outputs.
-- [ ] Board approves image-ROM port B for VGA.
-- [ ] Control approves one-clock latency and hidden-buffer interface.
-- [ ] Copy the approved interfaces into `docs/PROJECT_CONTEXT.md` section 9.
+- [x] Python approved filenames, widths, and address order.
+- [x] Compute approved signed weight and bias outputs.
+- [x] Board approved image-ROM port B for VGA.
+- [x] Control approved one-clock latency and hidden-buffer interface.
+- [x] The approved interfaces are copied into `docs/PROJECT_CONTEXT.md` section 9.
 
 ## 10. Viva questions
 
